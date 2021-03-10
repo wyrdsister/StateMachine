@@ -2,7 +2,7 @@ package main.java.server.states;
 
 public class WaitingState implements State {
     @Override
-    public void operate(StateContext stateContext) {
+    public void operate(StateContext stateContext) throws InterruptedException {
         if (stateContext.isStopped()) {
             return;
         }
@@ -18,11 +18,8 @@ public class WaitingState implements State {
                 return;
             }
 
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+            Thread.sleep(100);
         }
     }
 }

@@ -8,21 +8,9 @@ public class ProcessingState implements State {
     }
 
     @Override
-    public void operate(StateContext stateContext) {
-        System.out.println(String.format("Обработка данных %s...", data));
-
-        boolean success = false;
-        try {
-            Thread.sleep(stateContext.getMinProcessingTime() * 1000);
-            success = true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if (success) {
-            stateContext.setState(new SendingState(data));
-        } else {
-            stateContext.setState(new WaitingState());
-        }
+    public void operate(StateContext stateContext) throws InterruptedException {
+        System.out.printf("Обработка данных %s...%n", data);
+        Thread.sleep(stateContext.getMinProcessingTime() * 1000L);
+        stateContext.setState(new SendingState(data));
     }
 }

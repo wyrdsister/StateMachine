@@ -19,7 +19,7 @@ public class Server extends StateContext implements Runnable {
             return;
         }
 
-        System.out.println(String.format("Данные %s получены...", data));
+        System.out.printf("Данные %s получены...%n", data);
         queue.add(data);
     }
 
@@ -42,7 +42,12 @@ public class Server extends StateContext implements Runnable {
         if (stopped.get()) return;
 
         while (!stopped.get()) {
-            setState(new WaitingState());
+            try {
+                setState(new WaitingState());
+            } catch (InterruptedException e) {
+                e.printStackTrace(System.out);
+                stopped.set(true);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ public class ApplicationProperties {
         try (FileInputStream stream = new FileInputStream(resource.getPath())) {
             properties.load(stream);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 

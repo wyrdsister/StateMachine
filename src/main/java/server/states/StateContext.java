@@ -37,7 +37,7 @@ public class StateContext {
         return queue.poll();
     }
 
-    public void setState(State newState){
+    public void setState(State newState) throws InterruptedException {
         this.state = newState;
         state.operate(this);
     }

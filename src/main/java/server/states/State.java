@@ -1,5 +1,5 @@
 package main.java.server.states;
 
 public interface State {
-    void operate(StateContext stateContext);
+    void operate(StateContext stateContext) throws InterruptedException;
 }
