@@ -1,4 +1,4 @@
-package main.java.server.states;
+package server.states;
 
 public class WaitingState implements State {
     @Override
@@ -19,7 +19,7 @@ public class WaitingState implements State {
             }
 
 
-            Thread.sleep(100);
+            Thread.sleep(stateContext.getMinWaitingTimeByMillisec());
         }
     }
 }

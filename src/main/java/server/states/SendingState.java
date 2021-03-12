@@ -1,4 +1,4 @@
-package main.java.server.states;
+package server.states;
 
 public class SendingState implements State{
     private final Object data;
@@ -10,7 +10,7 @@ public class SendingState implements State{
     @Override
     public void operate(StateContext stateContext) throws InterruptedException {
         System.out.printf("Отправка данных %s...%n", data);
-        Thread.sleep(stateContext.getMinSendingTime() * 1000L);
+        Thread.sleep(stateContext.getMinSendingTimeByMillisec());
         stateContext.setState(new WaitingState());
     }
 }

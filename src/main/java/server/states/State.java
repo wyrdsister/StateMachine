@@ -1,4 +1,4 @@
-package main.java.server.states;
+package server.states;
 
 public interface State {
     void operate(StateContext stateContext) throws InterruptedException;

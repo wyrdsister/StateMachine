@@ -1,26 +1,24 @@
-package main.java.server;
+package server;
 
-import main.java.server.states.StateContext;
-import main.java.server.states.WaitingState;
-
-import java.util.concurrent.ConcurrentLinkedQueue;
+import server.states.StateContext;
+import server.states.WaitingState;
 
 public class Server extends StateContext implements Runnable {
     public Server() {
         this(1, 1);
     }
 
-    public Server(int minProcessingTime, int minSendingTime) {
-        super(minProcessingTime, minSendingTime, new ConcurrentLinkedQueue<>());
+    public Server(double minProcessingTime, double minSendingTime) {
+        super(minProcessingTime, minSendingTime);
     }
 
-    public void push(Object data) {
-        if (stopped.get()){
-            return;
+    public boolean push(Object data) {
+        if (stopped.get() || data == null){
+            return false;
         }
 
         System.out.printf("Данные %s получены...%n", data);
-        queue.add(data);
+        return queue.add(data);
     }
 
     public void start() {

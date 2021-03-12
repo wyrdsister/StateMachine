@@ -1,28 +1,39 @@
-package main.java.server.states;
+package server.states;
 
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StateContext {
-    private final int minProcessingTime;
-    private final int minSendingTime;
+    private final double minProcessingTime;
+    private final double minSendingTime;
+    private final double minWaitingTime;
     private State state;
     protected final Queue<Object> queue;
     protected final AtomicBoolean stopped;
 
-    public StateContext(int minProcessingTime, int minSendingTime, Queue<Object> queue) {
+    public StateContext(double minProcessingTime, double minSendingTime) {
+        this(minProcessingTime, minSendingTime, 0.1);
+    }
+
+    public StateContext(double minProcessingTime, double minSendingTime, double minWaitingTime) {
         this.minProcessingTime = minProcessingTime;
         this.minSendingTime = minSendingTime;
-        this.queue = queue;
-        stopped = new AtomicBoolean();
+        this.minWaitingTime = minWaitingTime;
+        this.queue = new ConcurrentLinkedQueue<>();
+        this.stopped = new AtomicBoolean();
     }
 
-    public int getMinProcessingTime() {
-        return minProcessingTime;
+    public long getMinProcessingTimeByMillisec() {
+        return (long) (minProcessingTime * 1000L);
     }
 
-    public int getMinSendingTime() {
-        return minSendingTime;
+    public long getMinSendingTimeByMillisec() {
+        return (long) (minSendingTime * 1000L);
+    }
+
+    public long getMinWaitingTimeByMillisec() {
+        return (long) (minWaitingTime * 1000L);
     }
 
     public boolean isEmptyQueue() {
@@ -40,5 +51,9 @@ public class StateContext {
     public void setState(State newState) throws InterruptedException {
         this.state = newState;
         state.operate(this);
+    }
+
+    public State getState() {
+        return state;
     }
 }
